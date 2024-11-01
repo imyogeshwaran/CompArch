@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Binary Division (Restoring Method)</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Binary Division (Restoring Method)</h1>
+        <p>Enter two decimal numbers for division:</p>
+        <input type="number" id="dividend" placeholder="Enter dividend (decimal)">
+        <input type="number" id="divisor" placeholder="Enter divisor (decimal)">
+        <button onclick="calculateDivision()">Calculate</button>
+        <div class="result" id="result"></div>
+    </div>
+    <script>
+        async function calculateDivision() {
+            const dividend = document.getElementById('dividend').value;
+            const divisor = document.getElementById('divisor').value;
+
+            const response = await fetch('/calculate_division', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ dividend, divisor })
+            });
+
+            const data = await response.json();
+            document.getElementById('result').innerHTML =
+                `Quotient in Decimal: ${data.quotient_decimal} <br> Quotient in Binary: ${data.quotient_binary}<br>` +
+                `Remainder in Decimal: ${data.remainder_decimal} <br> Remainder in Binary: ${data.remainder_binary}`;
+        }
+    </script>
+</body>
+</html>

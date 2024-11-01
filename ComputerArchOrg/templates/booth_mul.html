@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Booth Multiplication</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Booth Multiplication</h1>
+        <p>Enter two decimal numbers for multiplication:</p>
+        <input type="number" id="multiplicand" placeholder="Enter multiplicand (decimal)">
+        <input type="number" id="multiplier" placeholder="Enter multiplier (decimal)">
+        <button onclick="calculateBooths()">Calculate</button>
+        <div class="result" id="result"></div>
+    </div>
+    <script>
+        async function calculateBooths() {
+            const multiplicand = document.getElementById('multiplicand').value;
+            const multiplier = document.getElementById('multiplier').value;
+
+            const response = await fetch('/calculate_booths', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ multiplicand, multiplier })
+            });
+
+            const data = await response.json();
+            document.getElementById('result').innerHTML =
+                `Result in Decimal: ${data.result_decimal} <br> Result in Binary: ${data.result_binary}`;
+        }
+    </script>
+</body>
+</html>
